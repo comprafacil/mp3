@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+Disallow: /admin
+Disallow: /admin/oauth
+Disallow: /api
+
 Sitemap: https://www.mp3-musica.com/sitemap.xml

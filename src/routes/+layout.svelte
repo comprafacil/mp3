@@ -17,10 +17,17 @@
 
   const lang = $derived(getLang($page.url.pathname));
   const t = $derived(translations[lang]);
+  
+  const currentPath = $derived($page.url.pathname);
+  const basePath = $derived(currentPath.replace(/^\/(es|en|pt)/, '') || '/');
 </script>
 
 <svelte:head>
   <meta name="google-site-verification" content="your-verification-code" />
+  <link rel="alternate" hreflang="es" href="https://mp3-musica.com/es{basePath}" />
+  <link rel="alternate" hreflang="en" href="https://mp3-musica.com/en{basePath}" />
+  <link rel="alternate" hreflang="pt" href="https://mp3-musica.com/pt{basePath}" />
+  <link rel="alternate" hreflang="x-default" href="https://mp3-musica.com/es{basePath}" />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col">

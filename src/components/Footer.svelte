@@ -1,19 +1,17 @@
 <script lang="ts">
-  let { t, lang }: { t: any; lang: string } = $props();
+  import type { Locale } from '$lib/i18n';
+  let { t, lang }: { t: any; lang: Locale } = $props();
 
   const currentYear = new Date().getFullYear();
   
-  // Get language-specific slugs for legal pages
   const legalSlugs = {
     es: { privacy: 'privacidad', terms: 'terminos', cookies: 'cookies' },
     en: { privacy: 'privacy', terms: 'terms', cookies: 'cookies' },
     pt: { privacy: 'privacidade', terms: 'termos', cookies: 'cookies' }
   };
   
-  // Get language-specific slug for search
-  const searchSlug = lang === 'en' ? 'search' : 'buscar';
-  
-  $: currentLangSlugs = legalSlugs[lang as keyof typeof legalSlugs] || legalSlugs.es;
+  const currentLangSlugs = $derived(legalSlugs[lang] || legalSlugs.es);
+  const searchSlug = $derived(lang === 'en' ? 'search' : 'buscar');
 </script>
 
 <footer class="bg-gray-900 text-gray-300">

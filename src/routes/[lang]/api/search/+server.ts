@@ -1,5 +1,9 @@
 import type { RequestHandler } from './$types';
 
+function normalizeQuery(query: string): string {
+  return query.toLowerCase().trim().replace(/\s+/g, ' ');
+}
+
 export const GET: RequestHandler = async ({ url, locals }) => {
   const query = url.searchParams.get('q') || '';
   const lang = url.searchParams.get('lang') || 'es';
@@ -21,6 +25,13 @@ export const GET: RequestHandler = async ({ url, locals }) => {
       `).bind(`%${query}%`, `%${query}%`, `%${query}%`).all();
       
       results = searchResults || [];
+      const resultsCount = results.length;
+      const zeroResults = resultsCount === 0 ? 1 : 0;
+
+      await locals.env.DB.prepare(`
+        INSERT INTO search_logs (lang, query, normalized_query, results_count, zero_results)
+        VALUES (?, ?, ?, ?, ?)
+      `).bind(lang, query, normalizeQuery(query), resultsCount, zeroResults).run();
     }
   } catch (e) {
     console.log('Search API error:', e);

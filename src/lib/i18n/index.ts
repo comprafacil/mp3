@@ -5,7 +5,7 @@ export type Locale = (typeof locales)[number];
 export const translations = {
   es: {
     site: {
-      name: 'mp3-musica-musica',
+      name: 'mp3-musica',
       tagline: 'Tu guía definitiva para el mundo de la música',
       description: 'Reviews de instrumentos, tutoriales de producción, cursos de música y herramientas gratuitas para músicos.'
     },
