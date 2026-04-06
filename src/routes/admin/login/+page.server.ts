@@ -71,9 +71,10 @@ export const actions: Actions = {
       }
 
       const isValid = await verifyPassword(password, adminUser.password_hash, adminUser.password_salt);
+      console.log('Password verification:', { isValid, storedHash: adminUser.password_hash.substring(0, 20), salt: adminUser.password_salt });
       
       if (!isValid) {
-        return fail(401, { error: 'Credenciales inválidas', email });
+        return fail(401, { error: 'Credenciales incorrectas. Verifica tu email y contraseña.', email });
       }
 
       const { generateSessionToken, createSessionData, serializeSession } = await import('$lib/auth/session');
@@ -99,9 +100,11 @@ export const actions: Actions = {
 
       throw redirect(302, '/admin');
     } catch (e: any) {
-      if (e.status === 302) throw e;
       console.error('Login error:', e);
-      return fail(500, { error: 'Error interno', email });
+      if (e.message?.includes('password') || e.message?.includes('hash')) {
+        return fail(500, { error: 'Error del sistema. Intenta de nuevo.', email });
+      }
+      return fail(500, { error: 'Error interno. Intenta más tarde.', email });
     }
   }
 };
