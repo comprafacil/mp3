@@ -1,16 +1,15 @@
-<script lang="ts">
-  import type { Locale } from '$lib/i18n';
+<script>
   import SearchButton from './SearchButton.svelte';
+  export let t;
+  export let lang;
 
-  let { t, lang }: { t: any; lang: Locale } = $props();
-
-  const navLinks = $derived([
-    { href: `/${lang}/reviews`, label: t.nav.reviews },
-    { href: `/${lang}/tutorials`, label: t.nav.tutorials },
-    { href: `/${lang}/courses`, label: t.nav.courses },
-    { href: `/${lang}/gear`, label: t.nav.gear },
-    { href: `/${lang}/streaming`, label: t.nav.streaming }
-  ]);
+  const navLinks = [
+    { href: `/${lang}/reviews`, label: t?.nav?.reviews ?? 'Reviews' },
+    { href: `/${lang}/tutorials`, label: t?.nav?.tutorials ?? 'Tutorials' },
+    { href: `/${lang}/courses`, label: t?.nav?.courses ?? 'Courses' },
+    { href: `/${lang}/gear`, label: t?.nav?.gear ?? 'Gear' },
+    { href: `/${lang}/streaming`, label: t?.nav?.streaming ?? 'Streaming' }
+  ];
 
   const langSwitcher = [
     { code: 'es', label: 'ES' },
@@ -18,7 +17,7 @@
     { code: 'pt', label: 'PT' }
   ];
   
-  let mobileMenuOpen = $state(false);
+  let mobileMenuOpen = false;
 </script>
 
 <header class="bg-white border-b border-gray-200 sticky top-0 z-50">

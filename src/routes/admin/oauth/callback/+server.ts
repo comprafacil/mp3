@@ -10,7 +10,8 @@ export const GET: RequestHandler = async ({ url, cookies, locals, getClientAddre
   const error = url.searchParams.get('error');
 
   if (error) {
-    throw redirect(302, '/admin/login?error=oauth_denied');
+    // OAuth was canceled by user or failed; redirect to login without OAuth error to avoid confusion
+    throw redirect(302, '/admin/login');
   }
 
   if (!code || !state) {
