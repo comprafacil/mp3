@@ -1,6 +1,5 @@
 import type { LayoutServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
-import { hashToken } from '$lib/auth/session';
 
 export const load: LayoutServerLoad = async ({ cookies, locals, url }) => {
   const sessionToken = cookies.get('admin_session');
@@ -19,7 +18,8 @@ export const load: LayoutServerLoad = async ({ cookies, locals, url }) => {
       throw redirect(302, '/admin/login');
     }
 
-    const tokenHash = hashToken(sessionToken);
+    const { hashToken } = await import('$lib/auth/session');
+    const tokenHash = await hashToken(sessionToken);
     
     const session = await locals.env.DB.prepare(`
       SELECT s.*, u.email, u.role, u.is_active
