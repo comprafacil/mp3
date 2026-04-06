@@ -22,8 +22,19 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   authUrl.searchParams.set('access_type', 'offline');
   authUrl.searchParams.set('prompt', 'consent');
 
-  if (locals.env?.KV) {
-    await locals.env.KV.put(`oauth_state:${state}`, state, { expirationTtl: 600 });
+  let kv: any = null;
+  try {
+    kv = locals.env.KV || locals.env.SESSION;
+  } catch {
+    kv = null;
+  }
+
+  if (kv) {
+    try {
+      await kv.put(`oauth_state:${state}`, state, { expirationTtl: 600 });
+    } catch (e) {
+      console.error('Failed to store OAuth state:', e);
+    }
   }
 
   throw redirect(302, authUrl.toString());

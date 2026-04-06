@@ -1,6 +1,5 @@
 import type { RequestHandler } from './$types';
 import { redirect } from '@sveltejs/kit';
-import { generateSessionToken, hashToken } from '$lib/auth/session';
 
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const GOOGLE_USERINFO_URL = 'https://www.googleapis.com/oauth2/v2/userinfo';
@@ -19,15 +18,24 @@ export const GET: RequestHandler = async ({ url, cookies, locals, getClientAddre
   }
 
   try {
-    if (!locals.env?.KV || !locals.env?.DB) {
+    if (!locals.env?.DB) {
       throw redirect(302, '/admin/login?error=server_error');
     }
 
-    const savedState = await locals.env.KV.get(`oauth_state:${state}`);
-    if (!savedState) {
-      throw redirect(302, '/admin/login?error=invalid_state');
+    let kv: any = null;
+    try {
+      kv = locals.env.KV || locals.env.SESSION;
+    } catch {
+      kv = null;
     }
-    await locals.env.KV.delete(`oauth_state:${state}`);
+
+    if (kv) {
+      const savedState = await kv.get(`oauth_state:${state}`);
+      if (!savedState) {
+        throw redirect(302, '/admin/login?error=invalid_state');
+      }
+      await kv.delete(`oauth_state:${state}`);
+    }
 
     const tokenResponse = await fetch(GOOGLE_TOKEN_URL, {
       method: 'POST',
@@ -67,13 +75,13 @@ export const GET: RequestHandler = async ({ url, cookies, locals, getClientAddre
     `).bind(email).first() as any;
 
     if (!user) {
-      const randomSalt = crypto.randomUUID();
-      const randomPasswordHash = crypto.createHash('sha512').update(googleId + randomSalt).digest('hex');
+      const { hashPassword } = await import('$lib/auth/session');
+      const { hash } = await hashPassword(googleId + crypto.randomUUID());
       
       const result = await locals.env.DB.prepare(`
         INSERT INTO admin_users (email, password_hash, salt, role, is_active, google_id, created_at)
         VALUES (?, ?, ?, 'editor', 1, ?, datetime('now'))
-      `).bind(email, randomPasswordHash, randomSalt, googleId).run();
+      `).bind(email, hash, '', googleId).run();
 
       user = { id: result.meta?.last_row_id, email, role: 'editor', is_active: 1 };
     }
@@ -82,14 +90,16 @@ export const GET: RequestHandler = async ({ url, cookies, locals, getClientAddre
       throw redirect(302, '/admin/login?error=account_disabled');
     }
 
+    const { generateSessionToken, hashToken, createSessionData, serializeSession } = await import('$lib/auth/session');
     const sessionToken = generateSessionToken();
-    const expiresAt = new Date(Date.now() + 86400 * 1000).toISOString();
-    const clientIP = getClientAddress();
+    const sessionData = createSessionData(user.id, user.email, user.role);
+    const serializedSession = serializeSession(sessionData);
+    const tokenHash = await hashToken(sessionToken);
 
     await locals.env.DB.prepare(`
-      INSERT INTO admin_sessions (user_id, token_hash, expires_at, ip_address, created_at)
-      VALUES (?, ?, ?, ?, datetime('now'))
-    `).bind(user.id, hashToken(sessionToken), expiresAt, clientIP).run();
+      INSERT INTO admin_sessions (token_hash, user_id, expires_at)
+      VALUES (?, ?, datetime('now', '+1 day'))
+    `).bind(tokenHash, user.id).run();
 
     await locals.env.DB.prepare(`
       UPDATE admin_users SET last_login_at = datetime('now') WHERE id = ?
@@ -99,7 +109,7 @@ export const GET: RequestHandler = async ({ url, cookies, locals, getClientAddre
       path: '/',
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'lax',
       maxAge: 86400
     });
 

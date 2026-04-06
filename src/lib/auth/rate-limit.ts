@@ -9,12 +9,24 @@ const defaultConfig: Record<string, RateLimitConfig> = {
   search: { windowSeconds: 60, maxRequests: 30 }
 };
 
+export interface RateLimitResult {
+  allowed: boolean;
+  remaining: number;
+  resetAt: Date;
+}
+
 export async function checkRateLimit(
   env: App.Locals['env'],
   identifier: string,
   action: string = 'default'
-): Promise<boolean> {
-  if (!env?.DB) return true;
+): Promise<RateLimitResult> {
+  const defaultResult: RateLimitResult = {
+    allowed: true,
+    remaining: 999,
+    resetAt: new Date(Date.now() + 60000)
+  };
+
+  if (!env?.DB) return defaultResult;
 
   const config = defaultConfig[action] || defaultConfig.api;
   const now = new Date();
@@ -30,7 +42,11 @@ export async function checkRateLimit(
     `).bind(identifier, action).first() as any;
 
     if (existing && existing.count >= config.maxRequests) {
-      return false;
+      return {
+        allowed: false,
+        remaining: 0,
+        resetAt: new Date(existing.window_end)
+      };
     }
 
     if (existing) {
@@ -39,18 +55,28 @@ export async function checkRateLimit(
           SELECT id FROM rate_limits WHERE identifier = ? AND action = ? ORDER BY created_at DESC LIMIT 1
         )
       `).bind(identifier, action).run();
+      
+      return {
+        allowed: true,
+        remaining: config.maxRequests - (existing.count + 1),
+        resetAt: new Date(existing.window_end)
+      };
     } else {
       const windowEnd = new Date(now.getTime() + config.windowSeconds * 1000);
       await env.DB.prepare(`
         INSERT INTO rate_limits (identifier, action, count, window_start, window_end)
         VALUES (?, ?, 1, ?, ?)
       `).bind(identifier, action, windowStart.toISOString(), windowEnd.toISOString()).run();
+      
+      return {
+        allowed: true,
+        remaining: config.maxRequests - 1,
+        resetAt: windowEnd
+      };
     }
-
-    return true;
   } catch (e) {
     console.error('Rate limit check error:', e);
-    return true;
+    return defaultResult;
   }
 }
 
