@@ -7,18 +7,48 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   let articles: { slug: string; lang: string; silo_slug: string; last_modified: string }[] = [];
   let silos: { slug: string }[] = [];
 
-  // Static pages
-  const staticPages = [
-    { slug: '', changefreq: 'daily', priority: '1.0' },
-    { slug: 'reviews', changefreq: 'weekly', priority: '0.9' },
-    { slug: 'tutorials', changefreq: 'weekly', priority: '0.9' },
-    { slug: 'courses', changefreq: 'weekly', priority: '0.9' },
-    { slug: 'gear', changefreq: 'weekly', priority: '0.9' },
-    { slug: 'streaming', changefreq: 'weekly', priority: '0.9' },
-    { slug: 'privacy', changefreq: 'monthly', priority: '0.3' },
-    { slug: 'terms', changefreq: 'monthly', priority: '0.3' },
-    { slug: 'cookies', changefreq: 'monthly', priority: '0.3' }
-  ];
+  // Static pages - language specific
+  const staticPagesByLang: Record<string, Array<{slug: string; changefreq: string; priority: string}>> = {
+    es: [
+      { slug: '', changefreq: 'daily', priority: '1.0' },
+      { slug: 'reviews', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'tutorials', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'courses', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'gear', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'streaming', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'privacidad', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'terminos', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'cookies', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'buscar', changefreq: 'weekly', priority: '0.5' },
+      { slug: 'admin', changefreq: 'monthly', priority: '0.1' }
+    ],
+    en: [
+      { slug: '', changefreq: 'daily', priority: '1.0' },
+      { slug: 'reviews', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'tutorials', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'courses', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'gear', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'streaming', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'privacy', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'terms', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'cookies', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'search', changefreq: 'weekly', priority: '0.5' },
+      { slug: 'admin', changefreq: 'monthly', priority: '0.1' }
+    ],
+    pt: [
+      { slug: '', changefreq: 'daily', priority: '1.0' },
+      { slug: 'reviews', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'tutorials', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'courses', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'gear', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'streaming', changefreq: 'weekly', priority: '0.9' },
+      { slug: 'privacidade', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'termos', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'cookies', changefreq: 'monthly', priority: '0.3' },
+      { slug: 'buscar', changefreq: 'weekly', priority: '0.5' },
+      { slug: 'admin', changefreq: 'monthly', priority: '0.1' }
+    ]
+  };
 
   // Try to fetch dynamic content from D1
   try {
@@ -42,6 +72,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
   // Add static pages for each language
   for (const lang of locales) {
+    const staticPages = staticPagesByLang[lang] || staticPagesByLang.es;
     for (const page of staticPages) {
       const loc = `${baseUrl}/${lang}/${page.slug}`;
       sitemap += `
