@@ -7,10 +7,10 @@
 <svelte:head>
   <title>{data.meta.title}</title>
   <meta name="description" content={data.meta.description} />
-  <link rel="canonical" href="https://mp3.com/{data.lang}/terms" />
-  <link rel="alternate" hreflang="es" href="https://mp3.com/es/terms" />
-  <link rel="alternate" hreflang="en" href="https://mp3.com/en/terms" />
-  <link rel="alternate" hreflang="pt" href="https://mp3.com/pt/terms" />
+  <link rel="canonical" href="https://www.mp3-musica.com/{data.lang}/terms" />
+  <link rel="alternate" hreflang="es" href="https://www.mp3-musica.com/es/terminos" />
+  <link rel="alternate" hreflang="en" href="https://www.mp3-musica.com/en/terms" />
+  <link rel="alternate" hreflang="pt" href="https://www.mp3-musica.com/pt/termos" />
 </svelte:head>
 
 <section class="py-12">

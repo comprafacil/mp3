@@ -7,7 +7,7 @@
 <svelte:head>
   <title>{data.meta.title}</title>
   <meta name="description" content={data.meta.description} />
-  <link rel="canonical" href="https://www.mp3-musica.com/{data.lang}/privacy" />
+  <link rel="canonical" href="https://www.mp3-musica.com/{data.lang}/privacidade" />
   <link rel="alternate" hreflang="es" href="https://www.mp3-musica.com/es/privacidad" />
   <link rel="alternate" hreflang="en" href="https://www.mp3-musica.com/en/privacy" />
   <link rel="alternate" hreflang="pt" href="https://www.mp3-musica.com/pt/privacidade" />

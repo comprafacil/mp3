@@ -71,7 +71,7 @@ export const load: PageServerLoad = async ({ params }) => {
     page: termsContent[lang],
     meta: {
       title: termsContent[lang].title + ' | mp3-musica.com',
-      description: 'Terms and conditions of mp3-musica.com'
+      description: 'Termos e condições do mp3-musica.com'
     }
   };
 };

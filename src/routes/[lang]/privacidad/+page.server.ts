@@ -86,7 +86,7 @@ export const load: PageServerLoad = async ({ params }) => {
     page: privacyContent[lang],
     meta: {
       title: privacyContent[lang].title + ' | mp3-musica.com',
-      description: 'Privacy policy of mp3-musica.com - How we protect your data.'
+      description: 'Política de privacidad de mp3-musica.com - Cómo protectemos tus datos.'
     }
   };
 };
