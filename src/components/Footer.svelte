@@ -39,15 +39,15 @@
       <div>
         <h3 class="text-white text-lg font-semibold mb-4">Legal</h3>
         <ul class="space-y-2">
-          <li><a href="/{lang}/privacy" class="hover:text-white transition-colors">{t.footer.privacy}</a></li>
-          <li><a href="/{lang}/terms" class="hover:text-white transition-colors">{t.footer.terms}</a></li>
+          <li><a href="/{lang}/privacidad" class="hover:text-white transition-colors">{t.footer.privacy}</a></li>
+          <li><a href="/{lang}/terminos" class="hover:text-white transition-colors">{t.footer.terms}</a></li>
           <li><a href="/{lang}/cookies" class="hover:text-white transition-colors">{t.footer.cookies}</a></li>
         </ul>
       </div>
     </div>
 
     <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
-      <p>&copy; {currentYear} mp3. {t.footer.copyright}</p>
+      <p>&copy; {currentYear} mp3-musica.com. {t.footer.copyright}</p>
     </div>
   </div>
 </footer>
