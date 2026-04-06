@@ -48,7 +48,7 @@ export const actions: Actions = {
                      'unknown';
     
     const rateLimitCheck = await checkRateLimit(locals.env, clientIp, 'login');
-    if (!rateLimitCheck) {
+    if (!rateLimitCheck.allowed) {
       return fail(429, { error: 'Demasiados intentos. Intenta más tarde.' });
     }
 
