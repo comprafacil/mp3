@@ -5,7 +5,7 @@ export type Locale = (typeof locales)[number];
 export const translations = {
   es: {
     site: {
-      name: 'mp3',
+      name: 'mp3-musica-musica',
       tagline: 'Tu guía definitiva para el mundo de la música',
       description: 'Reviews de instrumentos, tutoriales de producción, cursos de música y herramientas gratuitas para músicos.'
     },
@@ -46,17 +46,17 @@ export const translations = {
       error: 'Error al suscribirte. Intenta de nuevo.'
     },
     footer: {
-      about: 'Sobre mp3',
+      about: 'Sobre mp3-musica',
       contact: 'Contacto',
       privacy: 'Política de privacidad',
       terms: 'Términos y condiciones',
       cookies: 'Política de cookies',
-      copyright: '© 2025 mp3. Todos los derechos reservados.'
+      copyright: '© 2025 mp3-musica. Todos los derechos reservados.'
     }
   },
   en: {
     site: {
-      name: 'mp3',
+      name: 'mp3-musica',
       tagline: 'Your ultimate guide to the world of music',
       description: 'Instrument reviews, production tutorials, music courses and free tools for musicians.'
     },
@@ -97,17 +97,17 @@ export const translations = {
       error: 'Error subscribing. Please try again.'
     },
     footer: {
-      about: 'About mp3',
+      about: 'About mp3-musica',
       contact: 'Contact',
       privacy: 'Privacy policy',
       terms: 'Terms and conditions',
       cookies: 'Cookie policy',
-      copyright: '© 2025 mp3. All rights reserved.'
+      copyright: '© 2025 mp3-musica. All rights reserved.'
     }
   },
   pt: {
     site: {
-      name: 'mp3',
+      name: 'mp3-musica',
       tagline: 'Seu guia definitivo para o mundo da música',
       description: 'Reviews de instrumentos, tutoriais de produção, cursos de música e ferramentas gratuitas para músicos.'
     },
@@ -148,12 +148,12 @@ export const translations = {
       error: 'Erro ao se inscrever. Tente novamente.'
     },
     footer: {
-      about: 'Sobre mp3',
+      about: 'Sobre mp3-musica',
       contact: 'Contato',
       privacy: 'Política de privacidade',
       terms: 'Termos e condições',
       cookies: 'Política de cookies',
-      copyright: '© 2025 mp3. Todos os direitos reservados.'
+      copyright: '© 2025 mp3-musica. Todos os direitos reservados.'
     }
   }
 };
