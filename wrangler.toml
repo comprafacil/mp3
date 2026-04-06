@@ -2,7 +2,7 @@ name = "mp3"
 compatibility_date = "2026-04-01"
 
 [vars]
-SITE_URL = "https://mp3.com"
+SITE_URL = "https://www.mp3-musica.com"
 DEFAULT_LANG = "es"
 
 # Add your Cloudflare resources here once created

@@ -1,0 +1,8 @@
+# Cloudflare Pages Redirects
+# Redirect mp3-musica.pages.dev to www.mp3-musica.com
+
+# Redirect root subdomain to www
+https://mp3-musica.pages.dev/* https://www.mp3-musica.com/:splat 301
+
+# Also handle www without subdomain
+https://mp3-musica.com/* https://www.mp3-musica.com/:splat 301

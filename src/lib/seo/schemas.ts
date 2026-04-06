@@ -1,6 +1,6 @@
 import type { Locale } from '$lib/i18n';
 
-const SITE_URL = 'https://mp3.com';
+const SITE_URL = 'https://www.mp3-musica.com';
 const SITE_NAME = 'mp3';
 
 export function generateArticleSchema(

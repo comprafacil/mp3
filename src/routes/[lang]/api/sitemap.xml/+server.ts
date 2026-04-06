@@ -2,7 +2,7 @@ import type { RequestHandler } from './$types';
 import { locales } from '$lib/i18n';
 
 export const GET: RequestHandler = async ({ url, locals }) => {
-  const baseUrl = 'https://mp3.com';
+  const baseUrl = 'https://www.mp3-musica.com';
   
   let articles: { slug: string; lang: string; silo_slug: string; last_modified: string }[] = [];
   let silos: { slug: string }[] = [];

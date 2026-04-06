@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mp3.com/sitemap.xml
+Sitemap: https://www.mp3-musica.com/sitemap.xml
