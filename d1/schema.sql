@@ -427,12 +427,26 @@ CREATE TABLE IF NOT EXISTS notifications (
 );
 
 -- Seed Categories (Silos)
-INSERT OR IGNORE INTO categories (slug, name_es, name_en, name_pt, type) VALUES
-('reviews', 'Reviews', 'Reviews', 'Reviews', 'silo'),
-('tutorials', 'Tutoriales', 'Tutorials', 'Tutoriais', 'silo'),
-('courses', 'Cursos', 'Courses', 'Cursos', 'silo'),
-('gear', 'Equipos', 'Gear', 'Equipamentos', 'silo'),
-('streaming', 'Streaming', 'Streaming', 'Streaming', 'silo');
+INSERT OR IGNORE INTO categories (slug, lang, name, type) VALUES
+('reviews', 'es', 'Reviews', 'silo'),
+('tutorials', 'es', 'Tutoriales', 'silo'),
+('courses', 'es', 'Cursos', 'silo'),
+('gear', 'es', 'Equipos', 'silo'),
+('streaming', 'es', 'Streaming', 'silo');
+
+INSERT OR IGNORE INTO categories (slug, lang, name, type) VALUES
+('reviews', 'en', 'Reviews', 'silo'),
+('tutorials', 'en', 'Tutorials', 'silo'),
+('courses', 'en', 'Courses', 'silo'),
+('gear', 'en', 'Gear', 'silo'),
+('streaming', 'en', 'Streaming', 'silo');
+
+INSERT OR IGNORE INTO categories (slug, lang, name, type) VALUES
+('reviews', 'pt', 'Reviews', 'silo'),
+('tutorials', 'pt', 'Tutoriais', 'silo'),
+('courses', 'pt', 'Cursos', 'silo'),
+('gear', 'pt', 'Equipamentos', 'silo'),
+('streaming', 'pt', 'Streaming', 'silo');
 
 -- Sample Content
 INSERT OR IGNORE INTO content (lang, type, title, slug, excerpt, body, status, seo_title, seo_description, published_at, author_name) VALUES

@@ -124,10 +124,11 @@ INSTRUCCIONES:
 5. Propones CTAs relevantes para el perfil de músico`;
 
   try {
-    const aiResponse = await fetch('https://api.cloudflare.com/client/v4/accounts/YOUR_ACCOUNT_ID/ai/run/@cf/meta/llama-3.1-8b-instruct', {
+    const accountId = env.CF_ACCOUNT_ID || 'a7c021006de5c9322a5c7fe61b2c8cff';
+    const aiResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/meta/llama-3.1-8b-instruct`, {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer YOUR_CLOUDFLARE_API_TOKEN',
+        'Authorization': `Bearer ${env.CF_API_TOKEN}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -140,7 +141,19 @@ INSTRUCCIONES:
       })
     });
 
+    if (!aiResponse.ok) {
+      const errorText = await aiResponse.text();
+      console.error('AI API error:', errorText);
+      throw new Error(`AI API failed: ${aiResponse.status}`);
+    }
+
     const data = await aiResponse.json();
+    
+    if (!data.result?.response) {
+      console.error('AI response missing:', data);
+      throw new Error('Invalid AI response');
+    }
+    
     const content = JSON.parse(data.result.response);
     
     return {

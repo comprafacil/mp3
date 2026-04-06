@@ -8,11 +8,7 @@ bucket = "./build"
 [[d1_databases]]
 binding = "DB"
 database_name = "mp3-musica"
-database_id = "your-database-id-here"
-
-[[kv_namespaces]]
-binding = "KV"
-id = "your-kv-id-here"
+database_id = "aad36006-99e9-42e4-9995-cc4ab53f7294"
 
 [[r2_buckets]]
 binding = "R2"
@@ -20,12 +16,18 @@ bucket_name = "mp3-musica-media"
 
 [[kv_namespaces]]
 binding = "SESSION"
-id = "your-session-kv-id-here"
+id = "6581b736bf554232941305764f37a6c4"
+
+[[kv_namespaces]]
+binding = "SEARCH_TRENDING"
+id = "3e0c36b365e84cc7941d09028327ae31"
 
 [vars]
 ENVIRONMENT = "production"
+CF_ACCOUNT_ID = "a7c021006de5c9322a5c7fe61b2c8cff"
 
 [secrets]
 GOOGLE_CLIENT_ID = "your-google-client-id"
 GOOGLE_CLIENT_SECRET = "your-google-client-secret"
 GOOGLE_REDIRECT_URI = "https://mp3-musica.com/admin/oauth/callback"
+CF_API_TOKEN = "your-cf-api-token"
