@@ -5,18 +5,10 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
   preprocess: vitePreprocess(),
   kit: {
-    adapter: adapter({
-      routes: {
-        include: ['/*'],
-        exclude: ['_headers', '_redirects', 'robots.txt', 'favicon.ico']
-      }
-    }),
+    adapter: adapter(),
     alias: {
       '$lib': 'src/lib',
-      '$components': 'src/components',
-      '$lib/seo': 'src/lib/seo',
-      '$lib/i18n': 'src/lib/i18n',
-      '$lib/db': 'src/lib/db'
+      '$components': 'src/components'
     }
   }
 };
